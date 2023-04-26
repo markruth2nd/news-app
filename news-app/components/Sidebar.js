@@ -1,6 +1,6 @@
 const Sidebar = ({ children }) => {
-    return <aside>{children}</aside>;
-  };
-  
-  export default Sidebar;
-  
+    return <aside className="sidebar">{children}</aside>;
+    };
+    
+    export default Sidebar;
+    

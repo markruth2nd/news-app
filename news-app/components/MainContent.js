@@ -1,6 +1,6 @@
 const MainContent = ({ children }) => {
-    return <main>{children}</main>;
-  };
-  
-  export default MainContent;
-  
+    return <main className="main-content">{children}</main>;
+    };
+    
+    export default MainContent;
+    
