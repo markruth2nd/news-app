@@ -2,6 +2,17 @@
 import axios from 'axios';
 
 const fetchProvider1News = async (source, page = 1) => {
+    const apiKey = process.env.API_PROVIDER_1_KEY;
+    const apiUrl = `https://newsapi.org/v2/top-headlines?country=gb&apiKey=${apiKey}`;
+
+    try {
+    const response = await axios.get(apiUrl);
+    const articles = response.data.articles;
+    return articles;
+    } catch (error) {
+    console.error('Error fetching news from provider 1:', error);
+    return [];
+    }
   // Fetch news from provider 1 using their API and your API key
   // process.env.API_PROVIDER_1_KEY
   // Return an array of articles
