@@ -1,54 +1,39 @@
+// pages/index.js
 import { useState } from 'react';
 import Header from '../components/Header';
 import Navigation from '../components/Navigation';
 import MainContent from '../components/MainContent';
-import NewsStory from '../components/NewsStory';
 import Sidebar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import { fetchMultipleSourcesNews } from '../lib/fetchNews';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Home = () => {
-    const sources = ['cnn', 'bbc-news', 'the-new-york-times'];
-    const [newsStories, setNewsStories] = useState([]);
-    const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState(true);
+    const sources = [
+    { provider: 'provider1', sourceId: 'source-1' },
+    { provider: 'provider2', sourceId: 'source-2' },
+    { provider: 'provider3', sourceId: 'source-3' },
+    // ...
+    { provider: 'providerX', sourceId: 'source-100' },
+    ];
 
-    const fetchNewsStories = async () => {
-        const news = await fetchMultipleSourcesNews(sources, page);
-        if (news.length > 0) {
-        setNewsStories((prevNewsStories) => [...prevNewsStories, ...news]);
-        setPage(page + 1);
-        } else {
-        setHasMore(false);
-        }
+    const [news, setNews] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const handleNewsFetch = async () => {
+    setLoading(true);
+    const newsData = await fetchMultipleSourcesNews(sources);
+    setNews(newsData);
+    setLoading(false);
     };
 
     return (
-        <>
+    <>
         <Header />
         <Navigation />
-        <InfiniteScroll
-            dataLength={newsStories.length}
-            next={fetchNewsStories}
-            hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
-            endMessage={<p>No more articles available.</p>}
-        >
-            <MainContent>
-            {newsStories.map((story, index) => (
-                <NewsStory
-                key={index}
-                title={story.title}
-                excerpt={story.description}
-                source={story.source.name}
-                />
-            ))}
-            </MainContent>
-        </InfiniteScroll>
+        <MainContent news={news} loading={loading} onFetchNews={handleNewsFetch} />
         <Sidebar />
         <Footer />
-        </>
+    </>
     );
 };
 

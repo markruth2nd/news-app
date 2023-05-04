@@ -1,48 +1,46 @@
+// lib/fetchNews.js
 import axios from 'axios';
 
-const API_KEY = 'YOUR_API_KEY'; // Replace with your News API key
-const API_ENDPOINT = 'https://newsapi.org/v2/top-headlines';
+const fetchProvider1News = async (source, page = 1) => {
+  // Fetch news from provider 1 using their API and your API key
+  // process.env.API_PROVIDER_1_KEY
+  // Return an array of articles
+};
 
-export const fetchNews = async (source, page = 1) => {
-    try {
-        const response = await axios.get(API_ENDPOINT, {
-        params: {
-            apiKey: API_KEY,
-            sources: source,
-            page,
-        },
-        });
+const fetchProvider2News = async (source, page = 1) => {
+  // Fetch news from provider 2 using their API and your API key
+  // process.env.API_PROVIDER_2_KEY
+  // Return an array of articles
+};
 
-        return response.data.articles;
-    } catch (error) {
-        console.error('Error fetching news:', error);
-        return [];
-    }
-    };
+const fetchProvider3News = async (source, page = 1) => {
+  // Fetch news from provider 3 using their API and your API key
+  // process.env.API_PROVIDER_3_KEY
+  // Return an array of articles
+};
 
-    export const fetchMultipleSourcesNews = async (sources, page = 1) => {
+export const fetchMultipleSourcesNews = async (sources, page = 1) => {
     const allArticles = await Promise.all(
-        sources.map(async (source) => {
-        const articles = await fetchNews(source, page);
+    sources.map(async (source) => {
+        let articles = [];
+        switch (source.provider) {
+        case 'provider1':
+            articles = await fetchProvider1News(source.sourceId, page);
+            break;
+        case 'provider2':
+            articles = await fetchProvider2News(source.sourceId, page);
+            break;
+        case 'provider3':
+            articles = await fetchProvider3News(source.sourceId, page);
+            break;
+        // ... handle other providers
+        default:
+            break;
+        }
         return articles;
-        })
+    })
     );
 
-    return allArticles.flat();
-    };
-
-    export const fetchTotalArticles = async (sources) => {
-    try {
-        const response = await axios.get(API_ENDPOINT, {
-        params: {
-            apiKey: API_KEY,
-            sources: sources.join(','),
-        },
-        });
-
-        return response.data.totalResults;
-    } catch (error) {
-        console.error('Error fetching total articles:', error);
-        return 0;
-    }
-    };
+  // Flatten the articles array and return it
+    return [].concat(...allArticles);
+};
