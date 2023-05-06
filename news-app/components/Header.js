@@ -1,7 +1,7 @@
 const Header = () => {
     return (
     <header>
-    <h1 className="header-title">Free The Comment Section!!</h1>
+    <h1 className="header-title">News App using News API</h1>
     </header>
 );
 };

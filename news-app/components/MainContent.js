@@ -1,22 +1,19 @@
+// components/MainContent.js
 import React from 'react';
+import ArticleCard from './ArticleCard';
 
 const MainContent = ({ news }) => {
   return (
     <main className="main-content">
-      <ul>
+      <div className="article-grid">
         {news.map((article, index) => {
           if (!article) {
             return null;
           }
 
-          return (
-            <li key={index}>
-              <h3>{article.title}</h3>
-              <p>{article.description}</p>
-            </li>
-          );
+          return <ArticleCard key={index} article={article} />;
         })}
-      </ul>
+      </div>
     </main>
   );
 };
