@@ -62,7 +62,9 @@ nav a:hover {
   padding: 1rem;
   transition: transform 0.3s;
 }
-
+.article-card h3 {
+  color: #333333; /* Change the font color */
+}
 .article-card:hover {
   transform: translateY(-5px);
 }
